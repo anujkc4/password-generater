@@ -1,8 +1,27 @@
-import { useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 
 function App() {
   const [password, setpassword] = useState();
   const [length, setlength] = useState(8);
+  const [number, setnumber] = useState(false);
+  const [character, setcharacter] = useState(false);
+
+  const generatePssword = useCallback(() => {
+    let pass = "";
+    let char = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    if (number) char += "0123456789";
+    if (character) char += "!@#$%^&*()-_=+[]{}";
+
+    for (let i = 1; i <= length; i++) {
+      let temp = Math.floor(Math.random() * char.length);
+      pass += char.charAt(temp);
+    }
+    setpassword(pass);
+  }, [setcharacter, length, setnumber, setpassword]);
+
+  useEffect(() => {
+    generatePssword();
+  }, [generatePssword]);
 
   return (
     <>
@@ -27,9 +46,53 @@ function App() {
               copy
             </button>
           </div>
-          <div>
-            <input type="range" min={8} max={20} value={length} />
-            <label>range:{length}</label>
+          <div className="flex gap-4">
+            <div>
+              <input
+                type="range"
+                className="cursor-pointer"
+                min={8}
+                max={20}
+                onChange={(e) => {
+                  setlength(e.target.value);
+                }}
+              />
+              <label className="text-amber-300 text-xl mb-1.5 ml-2">
+                range: {length}
+              </label>
+            </div>
+            <div>
+              <input
+                type="checkbox"
+                className="cursor-pointer"
+                checked={number}
+                onChange={(e) => {
+                  setnumber((prev) => !prev);
+                }}
+              />
+              <label
+                htmlFor="numberInput"
+                className="text-amber-300 text-xl mb-1.5 ml-2"
+              >
+                number
+              </label>
+            </div>
+            <div>
+              <input
+                type="checkbox"
+                className="cursor-pointer"
+                checked={character}
+                onChange={(e) => {
+                  setcharacter((prev) => !prev);
+                }}
+              />
+              <label
+                htmlFor="characterInput"
+                className="text-amber-300 text-xl mb-1.5 ml-2"
+              >
+                character
+              </label>
+            </div>
           </div>
         </div>
       </div>
