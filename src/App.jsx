@@ -12,8 +12,8 @@ function App() {
     if (number) char += "0123456789";
     if (character) char += "!@#$%^&*()-_=+[]{}";
 
-    for (let i = 1; i <= length; i++) {
-      let temp = Math.floor(Math.random() * char.length);
+    for (let i = 0; i < length; i++) {
+      let temp = Math.floor(Math.random() * char.length + 1);
       pass += char.charAt(temp);
     }
     setpassword(pass);
@@ -39,7 +39,7 @@ function App() {
                 type="text"
                 value={password}
                 placeholder="password"
-                className="outline-none w-full py-2 px-3 text-cyan-950 bg-amber-50 "
+                className="outline-none w-full py-2 px-3 text-amber-600 text-md bg-amber-50 "
               />
             </div>
             <button className=" bg-blue-500 text-white  h-10 px-4 rounded-lg hover:bg-blue-600 active:scale-95 transition duration-300 cursor-pointer">
